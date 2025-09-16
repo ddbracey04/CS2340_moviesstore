@@ -4,6 +4,21 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+def top_comments(request):
+    # let's say you only want the top N comments
+    TOP_N = 10
+    comments = Review.objects.select_related('user', 'movie') \
+                              .order_by('-likes', '-date')[:TOP_N]
+    # If you want to filter only certain movies, add a filter()
+    return render(request, 'movies/top_comments.html', {'comments': comments})
+
+@login_required
+def like(request, id, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    review.likes += 1
+    review.save()
+    return redirect('movies.show', id=id)
+
 def index(request):
     search_term = request.GET.get('search')
     if search_term:
