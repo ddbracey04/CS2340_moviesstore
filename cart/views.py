@@ -6,6 +6,13 @@ from .models import Order, Item
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+def totals(request):
+    # If you want to filter only certain movies, add a filter()
+    orders = Order.objects.filter(user=request.user)
+    sumTotal = sum([order.total for order in orders])
+    level = "Basic" if sumTotal < 15 else ("Medium" if sumTotal <= 30 else "Premium")
+    return render(request, 'cart/totals.html', {'sum': sumTotal, 'level': level})
+
 def add(request, id):
     get_object_or_404(Movie, id=id)
     cart = request.session.get('cart', {})
