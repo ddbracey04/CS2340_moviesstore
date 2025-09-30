@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% if user.is_authenticated %}
+<div class="row">
+<div class="container mt-4">
+    <div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card shadow p-3 mb-4 rounded">
+        <div class="card-body">
+            <b class="text-start">Create a review
+            </b><br /><br />
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn bg-dark text-white">Save Petition</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endblock content %}

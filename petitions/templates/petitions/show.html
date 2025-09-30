@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>{{ template_data.petition.name }}</h2>
+        <hr />
+        <p><b>Description:</b> {{ template_data.petition.description }}</p>
+        <p><b>Vote:</b> {{ template_data.petition.vote }}</p>
+        <!-- <h2>Reviews</h2>
+        <hr />
+        <ul class="list-group">
+          {% for review in template_data.reviews %}
+          <li class="list-group-item pb-3 pt-3">
+            <h5 class="card-title">
+              Review by {{ review.user.username }}
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {{ review.date }}
+            </h6>
+            <p class="card-text">{{ review.comment }}</p>
+            <p class="card-text">Likes: {{ review.likes }}</p>
+            {% if user.is_authenticated and user == review.user %}
+            <a class="btn btn-primary" href="{% url 'movies.edit_review' id=template_data.movie.id review_id=review.id %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'movies.delete_review' id=template_data.movie.id review_id=review.id %}">Delete</a>
+            <a class="btn btn-danger" href="{% url 'movies.like' id=template_data.movie.id review_id=review.id %}">Like</a>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul> -->
+      </div>
+    <div class="col-auto">
+        <a href="{% url 'petitions.upvote' id=template_data.petition.id %}" class="btn bg-dark text-white">Upvote</a>
+    </div>
+    <div class="col-auto">
+        <a href="{% url 'petitions.downvote' id=template_data.petition.id %}" class="btn bg-dark text-white">Downvote</a>
+    </div>
+    {% if template_data.petition.user == user %}
+    <div class="col-auto">
+        <a href="{% url 'petitions.edit_petition' id=template_data.petition.id %}" class="btn bg-dark text-white">Edit</a>
+    </div>
+    <div class="col-auto">
+        <a href="{% url 'petitions.delete_petition' id=template_data.petition.id %}" class="btn bg-dark text-white">Delete</a>
+    </div>
+    {% endif %}
+      {% if template_data.petition.image.url != '' %}
+      <div class="col-md-6 mx-auto mb-3 text-center">
+        <img src="{{ template_data.petition.image.url }}" class="rounded img-card-400" />
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
